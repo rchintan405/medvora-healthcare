@@ -93,8 +93,24 @@ Do not give patient-identifying advice; focus on continuing medical education.`;
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.dirname(__filename);
-    app.use(express.static(distPath));
+    // In production the CJS bundle lives at dist/server.cjs.
+    // Use __dirname (reliable in CJS) to resolve the dist folder.
+    const distPath = path.resolve(__dirname);
+
+    app.use(
+      express.static(distPath, {
+        // Ensure correct MIME types are sent for JS/CSS assets
+        setHeaders(res, filePath) {
+          if (filePath.endsWith('.js') || filePath.endsWith('.mjs')) {
+            res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+          } else if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css; charset=utf-8');
+          }
+        },
+      })
+    );
+
+    // SPA fallback — only for non-asset routes
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
