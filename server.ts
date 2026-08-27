@@ -6,7 +6,7 @@ import 'dotenv/config.js'
 
 async function startServer() {
   const app = express();
-  const PORT = process.env.PORT;
+  const PORT = Number(process.env.PORT) || 8001;
 
   app.use(express.json());
 
