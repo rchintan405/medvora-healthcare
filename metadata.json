@@ -1,0 +1,6 @@
+{
+  "name": "Medvora - Healthcare CME & Clinical Learning Platform",
+  "description": "A modern digital learning and professional development platform for healthcare professionals featuring accredited CME/CPD modules, interactive case studies, and personalized clinical education.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
