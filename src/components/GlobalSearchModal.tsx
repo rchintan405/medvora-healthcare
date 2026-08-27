@@ -50,8 +50,6 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
   const [selectedLevel, setSelectedLevel] = useState<string>('All');
   const [showFilters, setShowFilters] = useState(false);
 
-  if (!isOpen) return null;
-
   const normalizedQuery = query.toLowerCase().trim();
 
   // Extract all unique faculty from courses & webinars
@@ -69,7 +67,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         !normalizedQuery ||
         c.title.toLowerCase().includes(normalizedQuery) ||
         c.subtitle.toLowerCase().includes(normalizedQuery) ||
-        c.topics.some((t) => t.toLowerCase().includes(normalizedQuery)) ||
+        c.topics?.some((t: any) => t.toLowerCase().includes(normalizedQuery)) ||
         c.faculty.name.toLowerCase().includes(normalizedQuery);
 
       const matchSpecialty = selectedSpecialty === 'All' || c.specialty === selectedSpecialty;
@@ -142,6 +140,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     filteredWebinars.length +
     filteredCases.length +
     filteredGuidelines.length;
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 pt-12 sm:pt-20 bg-[#0A192F]/80 backdrop-blur-xs animate-in fade-in duration-200">
